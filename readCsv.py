@@ -22,20 +22,20 @@ PJD  1 Sep 2021 - Update os.chdir -> homePath
 PJD  1 Sep 2021 - PublicationStats - datasetNumTweak = 3.125e6 -> 3.4e6
 PJD  5 Oct 2021 - Updated to attempt to dynamically locate text info
 PJD  6 Dec 2021 - Added explicit str -> int conversion L249
+PJD 16 Mar 2022 - Updated homePath
                 TODO: get dynamic legend info from plot
 
 @author: durack1
 """
 
-import glob
-import os
 import csv
 import datetime
-#import matplotlib
-#import pdb
+import glob
+import os
 from matplotlib.dates import AutoDateFormatter, AutoDateLocator, date2num
 import matplotlib.pyplot as plt
 import numpy as np
+#import pdb
 
 # %% time labels
 timeNow = datetime.datetime.now()
@@ -43,8 +43,7 @@ timeFormat = timeNow.strftime('%y%m%dT%H%M%S')
 timeFormatDir = timeNow.strftime('%y%m%d')
 
 # %% Set home dir
-homePath = ''.join(['/Users/durack1/sync/Shared/Presentations/',
-                    '200402_NCAR-PCMDI-CATALYST-April2020/',
+homePath = ''.join(['/Users/durack1/sync/Docs/admin/LLNL/22/191127_WCRP-WGCM-CMIP/',
                     'cmip6_dataset_counts'])
 
 # %% DATASETS
@@ -180,7 +179,8 @@ for i in range(NUM_COLORS):
 # print(colList)
 # plt.stackplot(x,y,labels=list(files.keys()),colors=colList)
 plt.stackplot(x, y, labels=actLabels, colors=colList)
-plt.legend(loc='upper left', ncol=2, fontsize=8)
+legHandle = plt.legend(loc='upper left', ncol=2,
+                       fontsize=8, bbox_to_anchor=(0.0, 0.999))
 plt.title(''.join(
     ['Federated CMIP6 cumulative dataset count (Updated: ',
      timeNow.strftime('%Y-%m-%d'), ')']))
@@ -205,7 +205,7 @@ anoStr = ''.join(['CMIP6 total datasets: ', str(int(arr1[-1, 1]))])
 print(anoStr)
 # plt.annotate(anoStr,xy=(dateList[0],1.95e6),xytext=(dateList[0],1.95e6))
 dateTweak = date2num(datetime.date(2018, 6, 3))
-datasetNumTweak = 3.4e6
+datasetNumTweak = 3.3e6
 plt.annotate(anoStr, xy=(dateTweak, datasetNumTweak),
              xytext=(dateTweak, datasetNumTweak))
 print('dateList[0]:', dateList[0])
@@ -407,12 +407,12 @@ anoStr = ''.join(
 print(anoStr)
 # plt.annotate(anoStr,xy=(dateList[0],1.95e6),xytext=(dateList[0],1.95e6))
 dateTweak = date2num(datetime.date(2018, 6, 3))
-datasetNumTweak = 6.7
+datasetNumTweak = 7.1
 plt.annotate(anoStr, xy=(dateTweak, datasetNumTweak),
              xytext=(dateTweak, datasetNumTweak))
 print('dateList[0]:', dateList[0])
-#print(leg2.get_frame().get_bbox().bounds)
-#pdb.set_trace()
+# print(leg2.get_frame().get_bbox().bounds)
+# pdb.set_trace()
 # sys.exit()
 plt.savefig('_'.join([timeFormat, 'ESGF-PublicationStatsPB.png']))
 
