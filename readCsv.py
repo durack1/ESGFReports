@@ -23,6 +23,7 @@ PJD  1 Sep 2021 - PublicationStats - datasetNumTweak = 3.125e6 -> 3.4e6
 PJD  5 Oct 2021 - Updated to attempt to dynamically locate text info
 PJD  6 Dec 2021 - Added explicit str -> int conversion L249
 PJD 16 Mar 2022 - Updated homePath
+PJD 20 Mar 2022 - Update datasetNumTweak, y-axis lims
                 TODO: get dynamic legend info from plot
 
 @author: durack1
@@ -186,7 +187,7 @@ plt.title(''.join(
      timeNow.strftime('%Y-%m-%d'), ')']))
 plt.xlabel('Date')
 plt.ylabel('Dataset counts (Millions, 1e6)')
-yticks = np.arange(0, 6e6, 5e5)
+yticks = np.arange(0, 6.5e6, 5e5)
 ylabels = []
 for count, val in enumerate(yticks):
     if count in [1, 3, 5, 7, 9, 11]:
@@ -205,7 +206,7 @@ anoStr = ''.join(['CMIP6 total datasets: ', str(int(arr1[-1, 1]))])
 print(anoStr)
 # plt.annotate(anoStr,xy=(dateList[0],1.95e6),xytext=(dateList[0],1.95e6))
 dateTweak = date2num(datetime.date(2018, 6, 3))
-datasetNumTweak = 3.3e6
+datasetNumTweak = 3.65e6
 plt.annotate(anoStr, xy=(dateTweak, datasetNumTweak),
              xytext=(dateTweak, datasetNumTweak))
 print('dateList[0]:', dateList[0])
@@ -382,7 +383,7 @@ plt.title(''.join(
      timeNow.strftime('%Y-%m-%d'), ')']))
 plt.xlabel('Date')
 plt.ylabel('Dataset size (PB, 1e15)')
-yticks = np.arange(0, 12, 1)
+yticks = np.arange(0, 13, 1)
 ylabels = []
 '''
 for count,val in enumerate(yticks):
@@ -407,7 +408,7 @@ anoStr = ''.join(
 print(anoStr)
 # plt.annotate(anoStr,xy=(dateList[0],1.95e6),xytext=(dateList[0],1.95e6))
 dateTweak = date2num(datetime.date(2018, 6, 3))
-datasetNumTweak = 7.1
+datasetNumTweak = 7.3
 plt.annotate(anoStr, xy=(dateTweak, datasetNumTweak),
              xytext=(dateTweak, datasetNumTweak))
 print('dateList[0]:', dateList[0])

@@ -11,6 +11,7 @@ PJD  8 Dec 2020 - Updated to include data footprint scans
 PJD  1 Sep 2021 - Update macPath
 PJD  5 Oct 2021 - Updated to check python version - only 3 works
 PJD 16 Mar 2022 - Update macPath
+PJD 20 Mar 2022 - Add gitPath
 
 @author: durack1
 """
@@ -25,6 +26,12 @@ pyVerInfo = sys.version_info
 if pyVerInfo.major < 3:
     print('Python version', pyVerInfo.major, 'not supported, quitting..')
     sys.exit()
+
+# %% Get git path
+gitPath = os.path.realpath(__file__)
+gitPath = gitPath.split('/')[0:-1]
+gitPath = os.path.join(os.sep, *gitPath)
+print('gitPath:', gitPath)
 
 # %% Define activity_id entries
 activity_id = {
@@ -81,8 +88,10 @@ for key in keys:
         continue
     else:
         print(key)
-        cmd = ''.join(['python ../esgfDataPubPlots.py --project=CMIP6 --activity_id=',
-                      key, ' --start_date=2018-07-01 --end_date=', timeFormat, ' --cumulative'])
+        cmd = ''.join(['python ', os.path.join(gitPath, 'esgfDataPubPlots.py'),
+                       ' --project=CMIP6 --activity_id=', key,
+                       ' --start_date=2018-07-01 --end_date=', timeFormat,
+                       ' --cumulative'])
         cmd = shlex.split(cmd)
         print(cmd)
         process = subprocess.Popen(cmd,
@@ -92,8 +101,9 @@ for key in keys:
         stdout, stderr
 
 # And generate CMIP6 complete project totals
-cmd = ''.join(['python ../esgfDataPubPlots.py --project=CMIP6 --start_date=2018-07-01 --end_date=',
-              timeFormat, ' --cumulative'])
+cmd = ''.join(['python ', os.path.join(gitPath, 'esgfDataPubPlots.py'),
+               ' --project=CMIP6 --start_date=2018-07-01 --end_date=',
+               timeFormat, ' --cumulative'])
 cmd = shlex.split(cmd)
 print(cmd)
 process = subprocess.Popen(cmd,
@@ -112,8 +122,10 @@ for key in keys:
         continue
     else:
         print(key)
-        cmd = ''.join(['python ../esgfDataFootprintPlots.py --project=CMIP6 --activity_id=', key,
-                      ' --start_date=2018-07-01 --end_date=', timeFormat, ' --cumulative --latest --distinct'])
+        cmd = ''.join(['python ', os.path.join(gitPath, 'esgfDataFootprintPlots.py'),
+                       ' --project=CMIP6 --activity_id=', key,
+                       ' --start_date=2018-07-01 --end_date=', timeFormat,
+                       ' --cumulative --latest --distinct'])
         cmd = shlex.split(cmd)
         print(cmd)
         process = subprocess.Popen(cmd,
@@ -123,8 +135,10 @@ for key in keys:
         stdout, stderr
 
 # And generate CMIP6 complete project totals
-cmd = ''.join(['python ../esgfDataFootprintPlots.py --project=CMIP6 --start_date=2018-07-01 --end_date=',
-              timeFormat, ' --cumulative --latest --distinct'])
+cmd = ''.join(['python ', os.path.join(gitPath, 'esgfDataFootprintPlots.py'),
+               ' --project=CMIP6 --start_date=2018-07-01 --end_date=',
+               timeFormat, ' --cumulative --latest --distinct'])
+
 cmd = shlex.split(cmd)
 print(cmd)
 process = subprocess.Popen(cmd,
