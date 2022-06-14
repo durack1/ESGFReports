@@ -12,11 +12,13 @@ PJD  1 Sep 2021 - Update macPath
 PJD  5 Oct 2021 - Updated to check python version - only 3 works
 PJD 16 Mar 2022 - Update macPath
 PJD 20 Mar 2022 - Add gitPath
+PJD 14 Jun 2022 - Add pkg_resources to test numpy availability
 
 @author: durack1
 """
 import datetime
 import os
+import pkg_resources
 import shlex
 import subprocess
 import sys
@@ -25,6 +27,14 @@ import sys
 pyVerInfo = sys.version_info
 if pyVerInfo.major < 3:
     print('Python version', pyVerInfo.major, 'not supported, quitting..')
+    sys.exit()
+
+# %% Check numpy installed
+required = {'numpy'}
+installed = {pkg.key for pkg in pkg_resources.working_set}
+missing = required - installed
+if len(missing) > 0:
+    print("missing package:", missing, " exiting..")
     sys.exit()
 
 # %% Get git path
