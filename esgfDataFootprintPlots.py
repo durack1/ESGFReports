@@ -7,6 +7,7 @@ PJD  8 Dec 2020 - Downloaded from https://raw.githubusercontent.com/mauzey1/esgf
 PJD 10 Dec 2020 - Updated to include date prefix in filenames
 PJD  6 Dec 2021 - If error occurs at js = json.loads(req.text), check access is open https://esgf-node.llnl.gov/solr/files/query
 PJD 16 Mar 2022 - Updated to catch "403 Forbidden" error with SOLR index query
+PJD 13 Sep 2022 - Updated sys.exit to raise TimeoutError
 
 @author: @mauzey1, @durack1
 """
@@ -18,10 +19,10 @@ import json
 import datetime
 import argparse
 import numpy
-import sys
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 #import collections
+#import sys
 
 timeNow = datetime.datetime.now()
 timeFormat = timeNow.strftime('%y%m%d')
@@ -79,7 +80,8 @@ def get_data_footprint_time_data(project, start_date, end_date, activity_id=None
         print("***")
         print("SOLR index inaccessible, 403 Forbidden error, exiting...")
         print("***")
-        sys.exit()
+        # sys.exit()
+        raise TimeoutError
     js = json.loads(req.text)
 
     print(js.keys())

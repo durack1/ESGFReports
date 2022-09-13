@@ -5,6 +5,7 @@ Created on Tue Dec  8 21:51:58 2020
 
 PJD  6 Dec 2021 - If error occurs at js = json.loads(req.text), check access is open https://esgf-node.llnl.gov/solr/datasets/select
 PJD 16 Mar 2022 - Updated to catch "403 Forbidden" error with SOLR index query
+PJD 13 Sep 2022 - Updated sys.exit to raise TimeoutError
 
 @author: @mauzey1, @durack1
 """
@@ -16,10 +17,10 @@ import json
 import numpy
 import os
 import requests
-import sys
 import matplotlib.pyplot as plt
 #import collections
 #import pdb
+#import sys
 
 timeNow = datetime.datetime.now()
 timeFormat = timeNow.strftime('%y%m%d')
@@ -70,7 +71,8 @@ def get_dataset_time_data(project, start_date, end_date, activity_id=None,
         print("***")
         print("SOLR index inaccessible, 403 Forbidden error, exiting...")
         print("***")
-        sys.exit()
+        # sys.exit()
+        raise TimeoutError
     js = json.loads(req.text)
 
     ts_counts = js['facet_counts']['facet_ranges']['_timestamp']
