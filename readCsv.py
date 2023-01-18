@@ -24,6 +24,7 @@ PJD  5 Oct 2021 - Updated to attempt to dynamically locate text info
 PJD  6 Dec 2021 - Added explicit str -> int conversion L249
 PJD 16 Mar 2022 - Updated homePath
 PJD 20 Mar 2022 - Update datasetNumTweak, y-axis lims
+PJD 17 Jan 2023 - Update homePath 22 -> 23
                 TODO: get dynamic legend info from plot
 
 @author: durack1
@@ -44,7 +45,7 @@ timeFormat = timeNow.strftime('%y%m%dT%H%M%S')
 timeFormatDir = timeNow.strftime('%y%m%d')
 
 # %% Set home dir
-homePath = ''.join(['/Users/durack1/sync/Docs/admin/LLNL/22/191127_WCRP-WGCM-CMIP/',
+homePath = ''.join(['/Users/durack1/sync/Docs/admin/LLNL/23/191127_WCRP-WGCM-CMIP/',
                     'cmip6_dataset_counts'])
 
 # %% DATASETS

@@ -13,6 +13,7 @@ PJD  5 Oct 2021 - Updated to check python version - only 3 works
 PJD 16 Mar 2022 - Update macPath
 PJD 20 Mar 2022 - Add gitPath
 PJD 14 Jun 2022 - Add pkg_resources to test numpy availability
+PJD 17 Jan 2023 - Update macPath 22 -> 23
 
 @author: durack1
 """
@@ -78,7 +79,7 @@ timeFormatDir = timeNow.strftime('%y%m%d')
 print(timeFormat)
 
 # %% Change dir and add script to path
-macPath = ''.join(['/Users/durack1/sync/Docs/admin/LLNL/22/191127_WCRP-WGCM-CMIP/',
+macPath = ''.join(['/Users/durack1/sync/Docs/admin/LLNL/23/191127_WCRP-WGCM-CMIP/',
                    'cmip6_dataset_counts'])
 os.chdir(macPath)
 # Now change to dated subdir

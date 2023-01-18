@@ -25,6 +25,7 @@ PJD  6 Dec 2021 - Added explicit str -> int conversion L249
 PJD 16 Mar 2022 - Updated homePath
 PJD 20 Mar 2022 - Update datasetNumTweak, y-axis lims
 PJD 19 May 2022 - Update for multi-file output PB only (adapted from readCsv.py)
+PJD 17 Jan 2023 - Update homePath 22 -> 23
                 TODO: get dynamic legend info from plot
 
 @author: durack1
@@ -44,7 +45,7 @@ timeFormat = timeNow.strftime('%y%m%dT%H%M%S')
 timeFormatDir = timeNow.strftime('%y%m%d')
 
 # %% Set home dir
-homePath = ''.join(['/Users/durack1/sync/Docs/admin/LLNL/22/191127_WCRP-WGCM-CMIP/',
+homePath = ''.join(['/Users/durack1/sync/Docs/admin/LLNL/23/191127_WCRP-WGCM-CMIP/',
                     'cmip6_dataset_counts'])
 
 # %% DATASET FOOTPRINTS
@@ -257,7 +258,15 @@ for val in x:
         ['{:04d}'.format(step), 'ESGF-PubStatsPB-MSSans.png'])))
     plt.close()
 
-# %% call to ffmpeg
+# %% call to ffmpeg - 2 steps to prepare a powerpoint-ready graphic object
+
+# (ffmpeg512) ml-9953350:~ durack1$ s
+# /Users/durack1/sync
+# (ffmpeg512) ml-9953350:sync durack1$ cd Docs/admin/LLNL/23/191127_WCRP-WGCM-CMIP/cmip6_dataset_counts/demo/
+# (ffmpeg512) ml-9953350:demo durack1$ ffmpeg -framerate 48 -i %04d_ESGF-PubStatsPB-MSSans.png 230117_output_48.mp4
+
+# (ffmpeg512) ml-9953350:demo durack1$ ffmpeg -i 230117_output_48.mp4 -c:v libx264 -preset slow -profile:v high -level:v 4.0 -pix_fmt yuv420p -crf 22 -codec:a aac 230117_output_48_new.mp4
+
 # https://trac.ffmpeg.org/wiki/Slideshow
 # (ffmpeg501) ml-9585568:demo durack1$ ffmpeg -framerate 48 -i %04d_ESGF-PubStatsPB.png output_48.mp4
 # https://stackoverflow.com/questions/44130350/convert-videos-with-ffmpeg-to-powerpoint-2016-compatible-video-format
