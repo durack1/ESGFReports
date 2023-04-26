@@ -71,7 +71,6 @@ def get_dataset_time_data(project, start_date, end_date, activity_id=None,
         print("***")
         print("SOLR index inaccessible, 403 Forbidden error, exiting...")
         print("***")
-        # sys.exit()
         raise TimeoutError
     js = json.loads(req.text)
 

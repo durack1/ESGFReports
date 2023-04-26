@@ -14,6 +14,7 @@ PJD 16 Mar 2022 - Update macPath
 PJD 20 Mar 2022 - Add gitPath
 PJD 14 Jun 2022 - Add pkg_resources to test numpy availability
 PJD 17 Jan 2023 - Update macPath 22 -> 23
+PJD 26 Apr 2023 - Added "403 Forbidden error" check for output to catch SOLR query failures
 
 @author: durack1
 """
@@ -109,6 +110,9 @@ for key in keys:
                                    stdout=subprocess.PIPE,
                                    stderr=subprocess.PIPE)
         stdout, stderr = process.communicate()
+        if "403 Forbidden error" in str(stdout):
+            print("\nSOLR index inaccessible.. exiting\n")
+            sys.exit()
         stdout, stderr
 
 # And generate CMIP6 complete project totals
