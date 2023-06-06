@@ -58,8 +58,8 @@ def getFacetIds(url, facet):
 def makeUrl(phase, facet):
     url = "".join(["https://esgf-node.llnl.gov/esg-search/search/",
                    "?limit=0&format=application%2Fsolr%2Bjson&facets=",
-                   facet, "&project=input4MIPs&mip_era=", phase,
-                   "&distrib=false"])
+                   facet, "&project=input4mips&project=input4MIPs&mip_era=",
+                   phase, "&distrib=false"])
 
     return url
 
