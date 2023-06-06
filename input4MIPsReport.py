@@ -97,7 +97,7 @@ for phase in mipEra:
     print("".join([phase, ": ", str(len(instIds)), " total instIds"]))
     instIds.sort()
     print(instIds)
-    url = makeUrl(phase)
+    url = makeUrl(phase.rstrip())
     srcIds = getSrcIds(url)
     srcIds.sort()
     print("".join([phase, ": ", str(len(srcIds)), " total srcIds"]))
