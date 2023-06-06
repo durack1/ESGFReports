@@ -47,9 +47,10 @@ for phase in mipEra:
     mips = os.listdir(path)
     print("".join([phase, ": ", str(len(mips)), " MIPs served"]))
     size = os.path.getsize(path)
-    print("".join([phase, ": ", str(size/bToTb), " size (TB)"]))
+    print("".join([phase, ": ", "{:5.3f}".format(size/bToTb), " size (TB)"]))
     sizeNew = getDirSize(path)
-    print("".join([phase, ": ", str(sizeNew/bToTb), " sizeNew (TB)"]))
+    print("".join([phase, ": ", "{:5.3f}".format(
+        sizeNew/bToTb), " sizeNew (TB)"]))
     print(path)
     # loop through mips and capture insitution_id's
     instIds = []
