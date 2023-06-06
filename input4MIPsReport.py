@@ -14,7 +14,7 @@ basePath = "/p/user_pub/work/input4MIPs/"
 mipEra = ["CMIP6    ", "CMIP6Plus"]
 
 for phase in mipEra:
-    path = os.path.join(basePath, phase)
+    path = os.path.join(basePath, phase.rstrip())
     mips = os.listdir(path)
     print("".join([phase, ": ", str(len(mips)), " MIPs served"]))
     size = os.path.getsize(path)
@@ -23,7 +23,7 @@ for phase in mipEra:
     # loop through mips and capture insitution_id's
     instIds = []
     for mip in mips:
-        path = os.path.join(basePath, phase, mip)
+        path = os.path.join(basePath, phase.rstrip(), mip)
         mipList = os.listdir(path)
         for xmip in mipList:
             if xmip not in instIds:
