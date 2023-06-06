@@ -48,6 +48,7 @@ for phase in mipEra:
     path = os.path.join(basePath, phase.rstrip())
     mips = os.listdir(path)
     print("".join([phase, ": ", str(len(mips)), " MIPs served"]))
+    mips.sort()
     print(mips)
     size = os.path.getsize(path)
     print("".join([phase, ": ", "{:5.3f}".format(size/bToGb), " size (GB)"]))
