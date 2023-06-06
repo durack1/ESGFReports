@@ -7,7 +7,10 @@ Created on Tue Jun  6 14:22:28 2023
 """
 
 # %% imports
+import json
 import os
+import requests
+import numpy as np
 
 # %% function defs
 
@@ -35,6 +38,29 @@ def getDirSize(start_path='.'):
             totalFiles += 1
 
     return totalSize, totalFiles
+
+
+def getSrcIds(url):
+    req = requests.get(url)
+    js = json.loads(req.text)
+    srcIdsJson = js["facet_counts"]["facet_fields"]["source_id"]
+    srcIdLen = len(srcIdsJson)
+    rng = np.arange(0, srcIdLen, 2)
+    srcIds = []
+    for x in rng:
+        srcIds.append(srcIdsJson[x])
+
+    return srcIds
+
+
+def makeUrl(phase):
+    url = "".join(["https://esgf-node.llnl.gov/esg-search/search/",
+                   "?limit=0&format=application%2Fsolr%2Bjson",
+                   "&facets=source_id&project=input4mips",
+                   "&project=input4MIPs&mip_era=", phase,
+                   "&distrib=false"])
+
+    return url
 
 
 # %% set paths
@@ -71,4 +97,9 @@ for phase in mipEra:
     print("".join([phase, ": ", str(len(instIds)), " total instIds"]))
     instIds.sort()
     print(instIds)
+    url = makeUrl(phase)
+    srcIds = getSrcIds(url)
+    srcIds.sort()
+    print("".join([phase, ": ", str(len(srcIds)), " total srcIds"]))
+    print(srcIds)
     print('----------')
