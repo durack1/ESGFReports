@@ -12,15 +12,28 @@ import os
 # %% defs
 
 
-def dirSize(path='.'):
+def getDirSize(start_path='.'):
     # https://stackoverflow.com/questions/1392413/calculating-a-directorys-size-using-python
-    total = 0
-    for entry in os.scandir(path):
-        if entry.is_file():
-            total += entry.stat().st_size
-        elif entry.is_dir():
-            total += dirSize(entry.path)
-    return total
+    total_size = 0
+    seen = {}
+    for dirpath, dirnames, filenames in os.walk(start_path):
+        for f in filenames:
+            fp = os.path.join(dirpath, f)
+            try:
+                stat = os.stat(fp)
+            except OSError:
+                continue
+
+            try:
+                seen[stat.st_ino]
+            except KeyError:
+                seen[stat.st_ino] = True
+            else:
+                continue
+
+            total_size += stat.st_size
+
+    return total_size
 
 
 # %% set paths
@@ -33,7 +46,7 @@ for phase in mipEra:
     print("".join([phase, ": ", str(len(mips)), " MIPs served"]))
     size = os.path.getsize(path)
     print("".join([phase, ": ", str(size/1e12), " size (TB)"]))
-    sizeNew = dirSize(path)
+    sizeNew = getDirSize(path)
     print("".join([phase, ": ", sizeNew/1e12, " sizeNew (TB)"]))
     print(path)
     # loop through mips and capture insitution_id's
