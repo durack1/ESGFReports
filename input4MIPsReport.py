@@ -17,6 +17,6 @@ mipEra = ["CMIP6", "CMIP6Plus"]
 for phase in mipEra:
     path = os.path.join(basePath, phase)
     mips = os.listdir(path)
-    print("".join([phase, ":", len(mips), " MIPs served"]))
+    print("".join([phase, ":", str(len(mips)), " MIPs served"]))
     size = os.path.getsize(path)
-    print("".join([phase, ":", size/1e12, " size (TB)"]))
+    print("".join([phase, ":", str(size/1e12), " size (TB)"]))
