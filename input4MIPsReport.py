@@ -9,12 +9,12 @@ Created on Tue Jun  6 14:22:28 2023
 # %% imports
 import os
 
-# %% defs
+# %% function defs
 
 
 def getDirSize(start_path='.'):
     # https://stackoverflow.com/questions/1392413/calculating-a-directorys-size-using-python
-    total_size = 0
+    totalSize, totalFiles = [0 for _ in range(2)]
     seen = {}
     for dirpath, dirnames, filenames in os.walk(start_path):
         for f in filenames:
@@ -31,26 +31,28 @@ def getDirSize(start_path='.'):
             else:
                 continue
 
-            total_size += stat.st_size
+            totalSize += stat.st_size
+            totalFiles += 1
 
-    return total_size
+    return totalSize, totalFiles
 
 
 # %% set paths
 basePath = "/p/user_pub/work/input4MIPs/"
 mipEra = ["CMIP6    ", "CMIP6Plus"]
 
-bToTb = 1024*1024*1024*1024  # byte -> GB
+bToTb = 1024*1024*1024*1024  # byte -> TB
+bToGb = 1024*1024*1024  # byte -> GB
 
 for phase in mipEra:
     path = os.path.join(basePath, phase.rstrip())
     mips = os.listdir(path)
     print("".join([phase, ": ", str(len(mips)), " MIPs served"]))
     size = os.path.getsize(path)
-    print("".join([phase, ": ", "{:5.3f}".format(size/bToTb), " size (TB)"]))
-    sizeNew = getDirSize(path)
+    print("".join([phase, ": ", "{:5.3f}".format(size/bToGb), " size (GB)"]))
+    sizeNew, totalFiles = getDirSize(path)
     print("".join([phase, ": ", "{:5.3f}".format(
-        sizeNew/bToTb), " sizeNew (TB)"]))
+        sizeNew/bToGb), " sizeNew (GB); totalFiles:", str(totalFiles)]))
     print(path)
     # loop through mips and capture insitution_id's
     instIds = []
