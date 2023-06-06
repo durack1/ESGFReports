@@ -11,7 +11,7 @@ import os
 
 # %% set paths
 basePath = "/p/user_pub/work/input4MIPs/"
-mipEra = ["CMIP6", "CMIP6Plus"]
+mipEra = ["CMIP6    ", "CMIP6Plus"]
 
 for phase in mipEra:
     path = os.path.join(basePath, phase)
@@ -19,6 +19,7 @@ for phase in mipEra:
     print("".join([phase, ": ", str(len(mips)), " MIPs served"]))
     size = os.path.getsize(path)
     print("".join([phase, ": ", str(size/1e12), " size (TB)"]))
+    print(path)
     # loop through mips and capture insitution_id's
     instIds = []
     for mip in mips:
@@ -29,4 +30,5 @@ for phase in mipEra:
                 instIds.append(xmip)
     print("".join([phase, ": ", str(len(instIds)), " total instIds"]))
     instIds.sort()
-    print(instIds)      
+    print(instIds)
+    print('----------')
