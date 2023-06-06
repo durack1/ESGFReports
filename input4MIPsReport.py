@@ -26,6 +26,6 @@ for phase in mipEra:
         mipList = os.listdir(path)
         for xmip in mipList:
             if xmip not in instIds:
-                instIds.append(mip)
+                instIds.append(xmip)
     print("".join([phase, ": ", str(len(instIds)), " total instIds"]))
     print(instIds)      
