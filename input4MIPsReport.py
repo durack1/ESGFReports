@@ -40,14 +40,16 @@ def getDirSize(start_path='.'):
 basePath = "/p/user_pub/work/input4MIPs/"
 mipEra = ["CMIP6    ", "CMIP6Plus"]
 
+bToTb = 1024*1024*1024*1024  # byte -> GB
+
 for phase in mipEra:
     path = os.path.join(basePath, phase.rstrip())
     mips = os.listdir(path)
     print("".join([phase, ": ", str(len(mips)), " MIPs served"]))
     size = os.path.getsize(path)
-    print("".join([phase, ": ", str(size/1e12), " size (TB)"]))
+    print("".join([phase, ": ", str(size/bToTb), " size (TB)"]))
     sizeNew = getDirSize(path)
-    print("".join([phase, ": ", str(sizeNew/1e12), " sizeNew (TB)"]))
+    print("".join([phase, ": ", str(sizeNew/bToTb), " sizeNew (TB)"]))
     print(path)
     # loop through mips and capture insitution_id's
     instIds = []
