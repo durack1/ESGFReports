@@ -42,24 +42,23 @@ def getDirSize(start_path='.'):
     return totalSize, totalFiles
 
 
-def getSrcIds(url):
+def getFacetIds(url, facet):
     req = requests.get(url)
     js = json.loads(req.text)
-    srcIdsJson = js["facet_counts"]["facet_fields"]["source_id"]
-    srcIdLen = len(srcIdsJson)
-    rng = np.arange(0, srcIdLen, 2)
-    srcIds = []
+    facetIdsJson = js["facet_counts"]["facet_fields"][facet]
+    facetIdLen = len(facetIdsJson)
+    rng = np.arange(0, facetIdLen, 2)
+    facetIds = []
     for x in rng:
-        srcIds.append(srcIdsJson[x])
+        facetIds.append(facetIdsJson[x])
 
-    return srcIds
+    return facetIds
 
 
-def makeUrl(phase):
+def makeUrl(phase, facet):
     url = "".join(["https://esgf-node.llnl.gov/esg-search/search/",
-                   "?limit=0&format=application%2Fsolr%2Bjson",
-                   "&facets=source_id&project=input4mips",
-                   "&project=input4MIPs&mip_era=", phase,
+                   "?limit=0&format=application%2Fsolr%2Bjson&facets=",
+                   facet, "&project=input4MIPs&mip_era=", phase,
                    "&distrib=false"])
 
     return url
@@ -97,9 +96,14 @@ for phase in mipEra:
     print("".join([phase, ": ", str(len(instIds)), " total instIds"]))
     instIds.sort()
     print(instIds)
-    url = makeUrl(phase.rstrip())
-    srcIds = getSrcIds(url)
+    url = makeUrl(phase.rstrip(), "source_id")
+    srcIds = getFacetIds(url, "source_id")
     srcIds.sort()
     print("".join([phase, ": ", str(len(srcIds)), " total srcIds"]))
     print(srcIds)
+    url = makeUrl(phase.rstrip(), "variable_id")
+    varIds = getFacetIds(url, "variable_id")
+    varIds.sort()
+    print("".join([phase, ": ", str(len(varIds)), " total varIds"]))
+    print(varIds)
     print('----------')
