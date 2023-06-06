@@ -32,7 +32,7 @@ class ByteSize(int):
         self.megabytes = self.MB = self / self._KB**2
         self.gigabytes = self.GB = self / self._KB**3
         self.petabytes = self.PB = self / self._KB**4
-        *suffixes, last = self._suffixes
+        suffixes, last = self._suffixes
         suffix = next((
             suffix
             for suffix in suffixes
@@ -82,7 +82,7 @@ for phase in mipEra:
     size = os.path.getsize(path)
     print("".join([phase, ": ", str(size/1e12), " size (TB)"]))
     sizeNew = getDirSize(path)
-    print("".join([phase, ": ", size.PB, " size (PB)"]))
+    print("".join([phase, ": ", sizeNew.PB, " size (PB)"]))
     print(path)
     # loop through mips and capture insitution_id's
     instIds = []
