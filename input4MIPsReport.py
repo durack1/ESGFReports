@@ -21,6 +21,8 @@ def getDirSize(start_path='.'):
     seen = {}
     for dirpath, dirnames, filenames in os.walk(start_path):
         for f in filenames:
+            if ".json" in f:
+                continue  # skip json files
             fp = os.path.join(dirpath, f)
             try:
                 stat = os.stat(fp)
