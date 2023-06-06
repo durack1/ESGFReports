@@ -61,6 +61,8 @@ for phase in mipEra:
     # loop through mips and capture insitution_id's
     instIds = []
     for mip in mips:
+        if mip in ["GeoMIP", "LS3MIP", "LUMIP"]:
+            continue  # Kludge
         path = os.path.join(basePath, phase.rstrip(), mip)
         mipList = os.listdir(path)
         for xmip in mipList:
