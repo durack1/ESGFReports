@@ -52,7 +52,7 @@ for phase in mipEra:
     print("".join([phase, ": ", "{:5.3f}".format(size/bToGb), " size (GB)"]))
     sizeNew, totalFiles = getDirSize(path)
     print("".join([phase, ": ", "{:5.3f}".format(
-        sizeNew/bToGb), " sizeNew (GB); totalFiles:", str(totalFiles)]))
+        sizeNew/bToGb), " sizeNew (GB); totalFiles: ", str(totalFiles)]))
     print(path)
     # loop through mips and capture insitution_id's
     instIds = []
