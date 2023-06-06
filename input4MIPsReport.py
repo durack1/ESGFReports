@@ -28,4 +28,4 @@ for phase in mipEra:
             if xmip not in instIds:
                 instIds.append(xmip)
     print("".join([phase, ": ", str(len(instIds)), " total instIds"]))
-    print(instIds)      
+    print(instIds.sort())      
