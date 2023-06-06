@@ -47,6 +47,8 @@ bToGb = 1024*1024*1024  # byte -> GB
 for phase in mipEra:
     path = os.path.join(basePath, phase.rstrip())
     mips = os.listdir(path)
+    if phase == "CMIP6    ":
+        mips.extend(["GeoMIP", "LS3MIP", "LUMIP"])  # Kludge
     print("".join([phase, ": ", str(len(mips)), " MIPs served"]))
     mips.sort()
     print(mips)
