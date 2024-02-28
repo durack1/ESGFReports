@@ -27,6 +27,8 @@ PJD 20 Mar 2022 - Update datasetNumTweak, y-axis lims
 PJD 17 Jan 2023 - Update homePath 22 -> 23
 PJD 23 Sep 2023 - Update to deal with >12 PB data, and total datasets 7.3 -> 8
 PJD 27 Feb 2024 - Updated path from admin/23 -> 24
+PJD 27 Feb 2024 - Updated yticks 0-13 -> 0-14
+PJD 27 Feb 2024 - Updated 'latest' text 2018-06-03 -> 2018-05-01
                 TODO: get dynamic legend info from plot
 
 @author: durack1
@@ -401,7 +403,7 @@ plt.title(
 )
 plt.xlabel("Date")
 plt.ylabel("Dataset size (PB, 1e15)")
-yticks = np.arange(0, 14, 1)
+yticks = np.arange(0, 15, 1)
 ylabels = []
 """
 for count,val in enumerate(yticks):
@@ -424,8 +426,8 @@ anoStr = "".join(
 )
 print(anoStr)
 # plt.annotate(anoStr,xy=(dateList[0],1.95e6),xytext=(dateList[0],1.95e6))
-dateTweak = date2num(datetime.date(2018, 6, 3))
-datasetNumTweak = 8.0
+dateTweak = date2num(datetime.date(2018, 5, 1))
+datasetNumTweak = 8.75
 plt.annotate(
     anoStr, xy=(dateTweak, datasetNumTweak), xytext=(dateTweak, datasetNumTweak)
 )
