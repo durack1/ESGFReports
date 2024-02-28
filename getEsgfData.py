@@ -16,6 +16,7 @@ PJD 14 Jun 2022 - Add pkg_resources to test numpy availability
 PJD 17 Jan 2023 - Update macPath 22 -> 23
 PJD 26 Apr 2023 - Added "403 Forbidden error" check for output to catch SOLR query failures
 PJD 22 Jun 2023 - Added matplotlib and numpy imports to catch issues that are not reported by submodules
+PJD 27 Feb 2024 - Updated path from admin/23 -> 24
 
 @author: durack1
 """
@@ -87,7 +88,7 @@ print(timeFormat)
 # %% Change dir and add script to path
 macPath = "".join(
     [
-        "/Users/durack1/sync/Docs/admin/LLNL/23/191127_WCRP-WGCM-CMIP/",
+        "/Users/durack1/sync/Docs/admin/LLNL/24/191127_WCRP-WGCM-CMIP/",
         "cmip6_dataset_counts",
     ]
 )
@@ -122,8 +123,7 @@ for key in keys:
         )
         cmd = shlex.split(cmd)
         print(cmd)
-        process = subprocess.Popen(
-            cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         stdout, stderr = process.communicate()
         if "403 Forbidden error" in str(stdout):
             print("\nSOLR index inaccessible.. exiting\n")
@@ -169,8 +169,7 @@ for key in keys:
         )
         cmd = shlex.split(cmd)
         print(cmd)
-        process = subprocess.Popen(
-            cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         stdout, stderr = process.communicate()
         stdout, stderr
 
