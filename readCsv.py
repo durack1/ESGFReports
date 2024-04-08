@@ -29,6 +29,7 @@ PJD 23 Sep 2023 - Update to deal with >12 PB data, and total datasets 7.3 -> 8
 PJD 27 Feb 2024 - Updated path from admin/23 -> 24
 PJD 27 Feb 2024 - Updated yticks 0-13 -> 0-14
 PJD 27 Feb 2024 - Updated 'latest' text 2018-06-03 -> 2018-05-01
+PJD  8 Apr 2024 - Updated 'latest' text in count figure -> 2018-05-01; other minor tweaks
                 TODO: get dynamic legend info from plot
 
 @author: durack1
@@ -203,10 +204,10 @@ plt.title(
 )
 plt.xlabel("Date")
 plt.ylabel("Dataset counts (Millions, 1e6)")
-yticks = np.arange(0, 6.5e6, 5e5)
+yticks = np.arange(0, 7.5e6, 5e5)
 ylabels = []
 for count, val in enumerate(yticks):
-    if count in [1, 3, 5, 7, 9, 11]:
+    if count in [1, 3, 5, 7, 9, 11, 13]:
         val2 = "".join([str(int(val / 1e6)), ".5"])
         print(count, val, val2)
         ylabels.append(val2)
@@ -220,8 +221,8 @@ plt.subplots_adjust(left=0.06, right=0.96, bottom=0.08, top=0.95, wspace=0, hspa
 anoStr = "".join(["CMIP6 total datasets: ", str(int(arr1[-1, 1]))])
 print(anoStr)
 # plt.annotate(anoStr,xy=(dateList[0],1.95e6),xytext=(dateList[0],1.95e6))
-dateTweak = date2num(datetime.date(2018, 6, 3))
-datasetNumTweak = 3.65e6
+dateTweak = date2num(datetime.date(2018, 5, 1))
+datasetNumTweak = 4.2e6
 plt.annotate(
     anoStr, xy=(dateTweak, datasetNumTweak), xytext=(dateTweak, datasetNumTweak)
 )
@@ -402,7 +403,7 @@ plt.title(
     )
 )
 plt.xlabel("Date")
-plt.ylabel("Dataset size (PB, 1e15)")
+plt.ylabel("Dataset size (PetaByte, 1e15)")
 yticks = np.arange(0, 15, 1)
 ylabels = []
 """
@@ -422,7 +423,7 @@ print("ylabels:", ylabels)
 plt.yticks(yticks, ylabels)
 plt.subplots_adjust(left=0.06, right=0.96, bottom=0.08, top=0.95, wspace=0, hspace=0)
 anoStr = "".join(
-    ["CMIP6 total 'latest' datasets (TB, 1e12): ", str(int(arr2[-1, 1] / 1e12))]
+    ["CMIP6 total 'latest' datasets (TeraByte, 1e12): ", str(int(arr2[-1, 1] / 1e12))]
 )
 print(anoStr)
 # plt.annotate(anoStr,xy=(dateList[0],1.95e6),xytext=(dateList[0],1.95e6))
