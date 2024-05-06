@@ -17,19 +17,17 @@ PJD 17 Jan 2023 - Update macPath 22 -> 23
 PJD 26 Apr 2023 - Added "403 Forbidden error" check for output to catch SOLR query failures
 PJD 22 Jun 2023 - Added matplotlib and numpy imports to catch issues that are not reported by submodules
 PJD 27 Feb 2024 - Updated path from admin/23 -> 24
+PJD  6 May 2024 - Updated to include institution_id and direct URL reads
 
 @author: durack1
 """
 import datetime
 import os
-import pkg_resources
 import shlex
 import subprocess
 import sys
-
-# add additional library imports used by called functions
-import numpy
-import matplotlib
+import requests
+import pkg_resources
 
 # %% Check Python min version
 pyVerInfo = sys.version_info
@@ -52,32 +50,20 @@ gitPath = os.path.join(os.sep, *gitPath)
 print("gitPath:", gitPath)
 
 # %% Define activity_id entries
-activity_id = {
-    "AerChemMIP": "Aerosols and Chemistry Model Intercomparison Project",
-    "C4MIP": "Coupled Climate Carbon Cycle Model Intercomparison Project",
-    "CDRMIP": "Carbon Dioxide Removal Model Intercomparison Project",
-    "CFMIP": "Cloud Feedback Model Intercomparison Project",
-    "CMIP": "CMIP DECK: 1pctCO2, abrupt4xCO2, amip, esm-piControl, esm-historical, historical, and piControl experiments",
-    "CORDEX": "Coordinated Regional Climate Downscaling Experiment",
-    "DAMIP": "Detection and Attribution Model Intercomparison Project",
-    "DCPP": "Decadal Climate Prediction Project",
-    "DynVarMIP": "Dynamics and Variability Model Intercomparison Project",
-    "FAFMIP": "Flux-Anomaly-Forced Model Intercomparison Project",
-    "GMMIP": "Global Monsoons Model Intercomparison Project",
-    "GeoMIP": "Geoengineering Model Intercomparison Project",
-    "HighResMIP": "High-Resolution Model Intercomparison Project",
-    "ISMIP6": "Ice Sheet Model Intercomparison Project for CMIP6",
-    "LS3MIP": "Land Surface, Snow and Soil Moisture",
-    "LUMIP": "Land-Use Model Intercomparison Project",
-    "OMIP": "Ocean Model Intercomparison Project",
-    "PAMIP": "Polar Amplification Model Intercomparison Project",
-    "PMIP": "Palaeoclimate Modelling Intercomparison Project",
-    "RFMIP": "Radiative Forcing Model Intercomparison Project",
-    "SIMIP": "Sea Ice Model Intercomparison Project",
-    "ScenarioMIP": "Scenario Model Intercomparison Project",
-    "VIACSAB": "Vulnerability, Impacts, Adaptation and Climate Services Advisory Board",
-    "VolMIP": "Volcanic Forcings Model Intercomparison Project",
-}
+actIdUrl = (
+    "https://raw.githubusercontent.com/WCRP-CMIP/CMIP6_CVs/main/CMIP6_activity_id.json"
+)
+r = requests.get(actIdUrl)
+rj = r.json()
+activity_id = rj["activity_id"]
+
+# %% Define institution_id entries
+instIdUrl = "https://raw.githubusercontent.com/WCRP-CMIP/CMIP6_CVs/main/CMIP6_institution_id.json"
+r = requests.get(instIdUrl)
+rj = r.json()
+institution_id = rj["institution_id"]
+# Messy_Consortium, NASA-GSFC, PCMDI, PNNL-WACCEM not published 240506
+# RUBISCO no latest data 240506
 
 # %% Get time
 timeNow = datetime.datetime.now()
@@ -161,6 +147,31 @@ for key in keys:
                 "python ",
                 os.path.join(gitPath, "esgfDataFootprintPlots.py"),
                 " --project=CMIP6 --activity_id=",
+                key,
+                " --start_date=2018-07-01 --end_date=",
+                timeFormat,
+                " --cumulative --latest --distinct",
+            ]
+        )
+        cmd = shlex.split(cmd)
+        print(cmd)
+        process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        stdout, stderr = process.communicate()
+        stdout, stderr
+
+# %% Loop through institution_id entries for cumulative DATA FOOTPRINT totals
+keys = institution_id.keys()
+for key in keys:
+    if key in ["MESSy_Consortium", "NASA-GSFC", "PCMDI", "PNNL-WACCEM", "RUBISCO"]:
+        print("Skipping:", key)
+        continue
+    else:
+        print(key)
+        cmd = "".join(
+            [
+                "python ",
+                os.path.join(gitPath, "esgfDataFootprintPlots.py"),
+                " --project=CMIP6 --institution_id=",
                 key,
                 " --start_date=2018-07-01 --end_date=",
                 timeFormat,

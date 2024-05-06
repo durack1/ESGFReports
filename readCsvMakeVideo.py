@@ -205,8 +205,6 @@ for val1 in x:
             "offset:",
             offset,
         )
-        if step == 2134:
-            pdb.set_trace()
         actLabel = " ".join([val2, str(int(arr2[step, count + offset] / 1e12))]).ljust(
             16
         )

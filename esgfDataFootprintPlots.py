@@ -11,17 +11,18 @@ PJD  6 Dec 2021 - If error occurs at js = json.loads(req.text),
 PJD 16 Mar 2022 - Updated to catch "403 Forbidden" error with SOLR index query
 PJD 13 Sep 2022 - Updated sys.exit to raise TimeoutError
 PJD 20 Apr 2024 - Updated to print query_url for debugging; flake8 autoformatting
+PJD  6 May 2024 - Adding institution_id
 
 @author: @mauzey1, @durack1
 """
 
-import requests
 import os
 import csv
 import json
 import datetime
 import argparse
 import numpy
+import requests
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 
@@ -57,6 +58,7 @@ def get_data_footprint_time_data(
     end_date,
     activity_id=None,
     experiment_id=None,
+    institution_id=None,
     cumulative=False,
     latest=None,
     replica=None,
@@ -81,6 +83,8 @@ def get_data_footprint_time_data(
         query += "&fq=activity_id:{activity_id}"
     if experiment_id:
         query += "&fq=experiment_id:{experiment_id}"
+    if institution_id:
+        query += "&fq=institution_id:{institution_id}"
     if latest is not None:
         query += "&fq=latest:{latest}"
     if replica is not None:
@@ -92,6 +96,7 @@ def get_data_footprint_time_data(
             end_date=end_str,
             activity_id=activity_id,
             experiment_id=experiment_id,
+            institution_id=institution_id,
             latest=latest,
             replica=replica,
         )
@@ -137,6 +142,7 @@ def gen_plot(
     ymax=None,
     activity_id=None,
     experiment_id=None,
+    institution_id=None,
     cumulative=False,
     latest=None,
     replica=None,
@@ -154,6 +160,7 @@ def gen_plot(
         end_date=end_date,
         activity_id=activity_id,
         experiment_id=experiment_id,
+        institution_id=institution_id,
         cumulative=cumulative,
         latest=latest,
         replica=replica,
@@ -169,6 +176,8 @@ def gen_plot(
         filename += "_{}".format(activity_id)
     if experiment_id:
         filename += "_{}".format(experiment_id)
+    if institution_id:
+        filename += "_instId-{}".format(institution_id)
     filename += "_{}-{}".format(start_str, end_str)
 
     filename = "_".join([timeFormat, filename])  # Append date prefix
@@ -209,6 +218,8 @@ def gen_plot(
         title += "{} ".format(activity_id)
     if experiment_id:
         title += "{} ".format(experiment_id)
+    if institution_id:
+        title += "instId-{} ".format(institution_id)
     if cumulative:
         title += "cumulative data footprint on ESGF"
     else:
@@ -249,6 +260,14 @@ def main():
         type=str,
         default=None,
         help="MIP experiment id (default is None)",
+    )
+    parser.add_argument(
+        "--institution_id",
+        "-ii",
+        dest="institution_id",
+        type=str,
+        default=None,
+        help="MIP institution id (default is None)",
     )
     parser.add_argument(
         "--start_date",
@@ -350,6 +369,7 @@ def main():
         args.ymax,
         args.activity_id,
         args.experiment_id,
+        args.institution_id,
         args.cumulative,
         args.latest,
         args.replica,
