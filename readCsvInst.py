@@ -39,6 +39,7 @@ import csv
 import datetime
 import glob
 import os
+import pdb
 from matplotlib.dates import AutoDateFormatter, AutoDateLocator, date2num
 import matplotlib.pyplot as plt
 import numpy as np
@@ -47,6 +48,10 @@ import numpy as np
 timeNow = datetime.datetime.now()
 timeFormat = timeNow.strftime("%y%m%dT%H%M%S")
 timeFormatDir = timeNow.strftime("%y%m%d")
+
+
+timeFormatDir = "240506"
+
 
 # %% Set home dir
 homePath = "".join(
@@ -155,14 +160,24 @@ for count, filePath in enumerate(files):
 # print(files.keys())
 
 # %% create US vs international composite
-#for count, key in enumerate(files.keys()):
+# for count, key in enumerate(files.keys()):
 #  print(count, key)
 USInds = [0, 15, 23, 28, 29, 34, 37, 40, 41, 42]
+print("len(USInds):", len(USInds))
 inds = np.arange(0, 44)
 IntInds = list(set(USInds).symmetric_difference(set(inds)))
+print("len(IntInds):", len(IntInds))
 arr.shape
+USarr = arr[:, USInds]
+USarrComp = USarr.sum(axis=1)
+print("USarr.shape:", USarr.shape)
+Intarr = arr[:, IntInds]
+IntarrComp = Intarr.sum(axis=1)
+print("Intarr.shape:", Intarr.shape)
+comparr = np.stack((USarrComp, IntarrComp), axis=1)
 
-# %% Now plot - https://python-graph-gallery.com/250-basic-stacked-area-chart/
+
+# %% Now plot all - https://python-graph-gallery.com/250-basic-stacked-area-chart/
 
 xtick_locator = AutoDateLocator()
 xtick_formatter = AutoDateFormatter(xtick_locator)
@@ -170,21 +185,12 @@ xtick_formatter = AutoDateFormatter(xtick_locator)
 # Setup variables
 # time axis and arrays
 x = date2num(dateList)
-y = arr
-y = y / 1e15  # Scale from bytes to PB 10^15
-# print('values:',y[:,0])
-# print('dateList: ',len(dateList))
-# print('y shape:',y.shape)
+y = arr / 1e15  # Scale from bytes to PB 10^15
 y = y.swapaxes(0, 1)
-# print('y shape:',y.shape)
 # Legend labels
 actLabels = []
 offset = 1
 for count, val in enumerate(list(files.keys())):
-    # print(count,val)
-    # print(val,int(arr2[-1,count+1]))
-    # actLabels.append(' '.join([val, str(int(arr2[-1, count+1]))]))
-    # actLabels.append(' '.join([val, str(int(arr2[-1, count+1]/1e12))]))
     actLabels.append(" ".join([val, str(int(arr[-1, count] / 1e12))]))
 # print(actLabels)
 
@@ -203,7 +209,6 @@ cm = plt.get_cmap("tab20c")  # also tab 20b, tab20
 for i in range(NUM_COLORS):
     colList.append(cm(1.0 * i / NUM_COLORS))
 # print(colList)
-# plt.stackplot(x,y,labels=list(files.keys()),colors=colList)
 plt.stackplot(x, y, labels=actLabels, colors=colList)
 leg2 = plt.legend(loc="upper left", ncol=2, fontsize=8)
 plt.title(
@@ -224,24 +229,69 @@ for count, val in enumerate(yticks):
     ylabels.append(val)
 print("yticks:", yticks)
 print("ylabels:", ylabels)
-# sys.exit()
 plt.yticks(yticks, ylabels)
 plt.subplots_adjust(left=0.06, right=0.96, bottom=0.08, top=0.95, wspace=0, hspace=0)
-# anoStr = "".join(
-#    ["CMIP6 total 'latest' datasets (TeraByte, 1e12): ", str(int(arr2[-1, 1] / 1e12))]
-# )
-# print(anoStr)
-# plt.annotate(anoStr,xy=(dateList[0],1.95e6),xytext=(dateList[0],1.95e6))
 dateTweak = date2num(datetime.date(2018, 5, 1))
 datasetNumTweak = 8.75
-# plt.annotate(
-#    anoStr, xy=(dateTweak, datasetNumTweak), xytext=(dateTweak, datasetNumTweak)
-# )
 print("dateList[0]:", dateList[0])
-# print(leg2.get_frame().get_bbox().bounds)
-# pdb.set_trace()
-# sys.exit()
 plt.savefig("_".join([timeFormat, "ESGF-PublicationStats-instId-PB.png"]))
+
+# %% Now plot US/Int - https://python-graph-gallery.com/250-basic-stacked-area-chart/
+
+xtick_locator = AutoDateLocator()
+xtick_formatter = AutoDateFormatter(xtick_locator)
+
+# Setup variables
+# time axis and arrays
+x = date2num(dateList)
+y = comparr / 1e15  # Scale from bytes to PB 10^15
+y = y.swapaxes(0, 1)
+# Legend labels
+actLabels = []
+offset = 1
+actLabels = ["US Modeling Groups", "International Modeling Groups"]
+
+# Basic stacked area chart.
+fig = plt.figure(figsize=(9, 6), dpi=300)  # Defaults to 6.4,4.8
+ax = plt.subplot(1, 1, 1)
+ax.xaxis.set_major_locator(xtick_locator)
+ax.xaxis.set_major_formatter(xtick_formatter)
+NUM_COLORS = 23
+colList = []
+# https://matplotlib.org/tutorials/colors/colormaps.html#classes-of-colormaps
+cm = plt.get_cmap("gist_rainbow")
+cm = plt.get_cmap("tab20c")  # also tab 20b, tab20
+# for i in range(NUM_COLORS):
+for i in [22, 5]:  # 5 orange, 22/23 grey
+    colList.append(cm(1.0 * i / NUM_COLORS))
+
+plt.stackplot(x, y, labels=actLabels, colors=colList)
+leg2 = plt.legend(loc="upper left", ncol=1, fontsize=14)
+plt.title(
+    "".join(
+        [
+            "Federated CMIP6 cumulative dataset footprint (Updated: ",
+            timeNow.strftime("%Y-%m-%d"),
+            ")",
+        ]
+    )
+)
+plt.xlabel("Date")
+plt.ylabel("Dataset size (PetaByte, 1e15)")
+yticks = np.arange(0, 15, 1)
+ylabels = []
+
+for count, val in enumerate(yticks):
+    ylabels.append(val)
+print("yticks:", yticks)
+print("ylabels:", ylabels)
+plt.yticks(yticks, ylabels)
+plt.subplots_adjust(left=0.06, right=0.96, bottom=0.08, top=0.95, wspace=0, hspace=0)
+dateTweak = date2num(datetime.date(2018, 5, 1))
+datasetNumTweak = 8.75
+
+print("dateList[0]:", dateList[0])
+plt.savefig("_".join([timeFormat, "ESGF-PublicationStats-instIdUSInt-PB.png"]))
 
 # %%
 # print(dateList[0],dateList[-1])
