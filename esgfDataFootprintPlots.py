@@ -12,6 +12,7 @@ PJD 16 Mar 2022 - Updated to catch "403 Forbidden" error with SOLR index query
 PJD 13 Sep 2022 - Updated sys.exit to raise TimeoutError
 PJD 20 Apr 2024 - Updated to print query_url for debugging; flake8 autoformatting
 PJD  6 May 2024 - Adding institution_id
+PJD  9 May 2024 - Update _instId- to -instId- to allow PB separation from MIPs to institution_id
 
 @author: @mauzey1, @durack1
 """
@@ -177,7 +178,7 @@ def gen_plot(
     if experiment_id:
         filename += "_{}".format(experiment_id)
     if institution_id:
-        filename += "_instId-{}".format(institution_id)
+        filename += "-instId-{}".format(institution_id)
     filename += "_{}-{}".format(start_str, end_str)
 
     filename = "_".join([timeFormat, filename])  # Append date prefix

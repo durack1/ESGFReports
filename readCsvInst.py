@@ -30,6 +30,7 @@ PJD 27 Feb 2024 - Updated path from admin/23 -> 24
 PJD 27 Feb 2024 - Updated yticks 0-13 -> 0-14
 PJD 27 Feb 2024 - Updated 'latest' text 2018-06-03 -> 2018-05-01
 PJD  8 Apr 2024 - Updated 'latest' text in count figure -> 2018-05-01; other minor tweaks
+PJD  9 May 2024 - Update _instId- to -instId- to allow PB separation from MIPs to institution_id
                 TODO: get dynamic legend info from plot
 
 @author: durack1
@@ -49,10 +50,6 @@ timeNow = datetime.datetime.now()
 timeFormat = timeNow.strftime("%y%m%dT%H%M%S")
 timeFormatDir = timeNow.strftime("%y%m%d")
 
-
-timeFormatDir = "240506"
-
-
 # %% Set home dir
 homePath = "".join(
     [
@@ -66,7 +63,7 @@ homePath = "".join(
 # %% Read available files
 os.chdir(homePath)
 csvFiles = glob.glob(
-    os.path.join(timeFormatDir, "*_datasets_*_footprint_CMIP6_instId*.csv")
+    os.path.join(timeFormatDir, "*_datasets_*_footprint_CMIP6-instId*.csv")
 )
 csvFiles.sort()
 # Create dictionary
@@ -262,7 +259,7 @@ colList = []
 cm = plt.get_cmap("gist_rainbow")
 cm = plt.get_cmap("tab20c")  # also tab 20b, tab20
 # for i in range(NUM_COLORS):
-for i in [22, 5]:  # 5 orange, 22/23 grey
+for i in [3, 22]:  # 3 blue, 22/23 grey
     colList.append(cm(1.0 * i / NUM_COLORS))
 
 plt.stackplot(x, y, labels=actLabels, colors=colList)

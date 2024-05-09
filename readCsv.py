@@ -244,7 +244,7 @@ plt.savefig("_".join([timeFormat, "ESGF-PublicationStats.png"]))
 
 # %% Read available files
 os.chdir(homePath)
-csvFiles = glob.glob(os.path.join(timeFormatDir, "*_datasets_*_footprint_*.csv"))
+csvFiles = glob.glob(os.path.join(timeFormatDir, "*_datasets_*_footprint_CMIP6_*.csv"))
 csvFiles.sort()
 # Create dictionary
 files = {}

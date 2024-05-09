@@ -27,7 +27,11 @@ PJD 20 Mar 2022 - Update datasetNumTweak, y-axis lims
 PJD 19 May 2022 - Update for multi-file output PB only (adapted from readCsv.py)
 PJD 17 Jan 2023 - Update homePath 22 -> 23
 PJD  6 May 2024 - Updated to sync with latest readCsv.py
+PJD  9 May 2024 - Updated to read MIP PB csvs only
                 TODO: get dynamic legend info from plot
+                TODO: lock legend size 
+                ttps://stackoverflow.com/questions/20048352/how-to-adjust-the-size-of-matplotlib-legend-box
+                https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.legend.html
 
 @author: durack1
 """
@@ -59,7 +63,7 @@ homePath = "".join(
 
 # %% Read available files
 os.chdir(homePath)
-csvFiles = glob.glob(os.path.join(timeFormatDir, "*_datasets_*_footprint_*.csv"))
+csvFiles = glob.glob(os.path.join(timeFormatDir, "*_datasets_*_footprint_CMIP6_*.csv"))
 csvFiles.sort()
 # Create dictionary
 files = {}
@@ -243,8 +247,8 @@ for val1 in x:
     # Controlling legend sizing
     # https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.legend.html
 
-    print(leg2.keys())
-    pdb.set_trace()
+    # print(leg2.keys())
+    # pdb.set_trace()
 
     # loc='best', bbox_to_anchor=(0.5, 0., 0.5, 0.5)
 
