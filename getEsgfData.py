@@ -19,16 +19,29 @@ PJD 22 Jun 2023 - Added matplotlib and numpy imports to catch issues that are no
 PJD 27 Feb 2024 - Updated path from admin/23 -> 24
 PJD  6 May 2024 - Updated to include institution_id and direct URL reads
 PJD 21 Jan 2025 - Updated macPath 24->25
+PJD 21 Jan 2025 - Updated pkg_resources -> importlib
 
 @author: durack1
 """
 import datetime
+import importlib.metadata
 import os
 import shlex
 import subprocess
 import sys
 import requests
-import pkg_resources
+
+# import pkg_resources
+
+# pkg_resources
+# for dist in pkg_resources.working_set:
+#    print(dist.project_name, dist.version)
+# importlib.metadata
+# import importlib.metadata
+#
+# for dist in importlib.metadata.distributions():
+#    print(dist.metadata["Name"], dist.version)
+
 
 # %% Check Python min version
 pyVerInfo = sys.version_info
@@ -38,7 +51,8 @@ if pyVerInfo.major < 3:
 
 # %% Check numpy installed
 required = {"numpy"}
-installed = {pkg.key for pkg in pkg_resources.working_set}
+# installed = {pkg.key for pkg in pkg_resources.working_set}
+installed = {dist.metadata["Name"] for dist in importlib.metadata.distributions()}
 missing = required - installed
 if len(missing) > 0:
     print("missing package:", missing, " exiting..")
