@@ -31,6 +31,7 @@ PJD 27 Feb 2024 - Updated yticks 0-13 -> 0-14
 PJD 27 Feb 2024 - Updated 'latest' text 2018-06-03 -> 2018-05-01
 PJD  8 Apr 2024 - Updated 'latest' text in count figure -> 2018-05-01; other minor tweaks
 PJD  9 May 2024 - Update _instId- to -instId- to allow PB separation from MIPs to institution_id
+PJD 21 Jan 2025 - Updated macPath 24->25
                 TODO: get dynamic legend info from plot
 
 @author: durack1
@@ -53,7 +54,7 @@ timeFormatDir = timeNow.strftime("%y%m%d")
 # %% Set home dir
 homePath = "".join(
     [
-        "/Users/durack1/sync/Docs/admin/LLNL/24/191127_WCRP-WGCM-CMIP/",
+        "/Users/durack1/sync/Docs/admin/LLNL/25/191127_WCRP-WGCM-CMIP/",
         "cmip6_dataset_counts",
     ]
 )

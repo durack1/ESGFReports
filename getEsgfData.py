@@ -18,6 +18,7 @@ PJD 26 Apr 2023 - Added "403 Forbidden error" check for output to catch SOLR que
 PJD 22 Jun 2023 - Added matplotlib and numpy imports to catch issues that are not reported by submodules
 PJD 27 Feb 2024 - Updated path from admin/23 -> 24
 PJD  6 May 2024 - Updated to include institution_id and direct URL reads
+PJD 21 Jan 2025 - Updated macPath 24->25
 
 @author: durack1
 """
@@ -74,7 +75,7 @@ print(timeFormat)
 # %% Change dir and add script to path
 macPath = "".join(
     [
-        "/Users/durack1/sync/Docs/admin/LLNL/24/191127_WCRP-WGCM-CMIP/",
+        "/Users/durack1/sync/Docs/admin/LLNL/25/191127_WCRP-WGCM-CMIP/",
         "cmip6_dataset_counts",
     ]
 )
