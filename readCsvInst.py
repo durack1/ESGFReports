@@ -32,6 +32,7 @@ PJD 27 Feb 2024 - Updated 'latest' text 2018-06-03 -> 2018-05-01
 PJD  8 Apr 2024 - Updated 'latest' text in count figure -> 2018-05-01; other minor tweaks
 PJD  9 May 2024 - Update _instId- to -instId- to allow PB separation from MIPs to institution_id
 PJD 21 Jan 2025 - Updated macPath 24->25
+PJD 11 Mar 2025 - Updated to print/validate US institutions
                 TODO: get dynamic legend info from plot
 
 @author: durack1
@@ -104,7 +105,7 @@ for count, x in enumerate(dateList):
 # %% Read CSV
 os.chdir(homePath)
 for count, filePath in enumerate(files):
-    print(count, filePath, files[filePath])
+    print("{:02d}".format(count), filePath, files[filePath])
     tmpTime = []
     tmpCount = []
     # with open(files[filePath],newline='') as csvfile:
@@ -162,6 +163,13 @@ for count, filePath in enumerate(files):
 #  print(count, key)
 USInds = [0, 15, 23, 28, 29, 34, 37, 40, 41, 42]
 print("len(USInds):", len(USInds))
+# print out USInsts
+print("US Institutions")
+for count, filePath in enumerate(files):
+    # match
+    if count in USInds:
+        print("{:02d}".format(count), filePath, files[filePath])
+
 inds = np.arange(0, 44)
 IntInds = list(set(USInds).symmetric_difference(set(inds)))
 print("len(IntInds):", len(IntInds))
