@@ -8,6 +8,7 @@ PJD  6 Dec 2021 - If error occurs at js = json.loads(req.text),
 PJD 16 Mar 2022 - Updated to catch "403 Forbidden" error with SOLR index query
 PJD 13 Sep 2022 - Updated sys.exit to raise TimeoutError
 PJD 20 Apr 2024 - Updated to print query_url for debugging; flake8 autoformatting
+PJD 23 Jun 2025 - Update to include hard-coded shards list, due to esg-search being offline
 
 @author: @mauzey1, @durack1
 """
@@ -37,13 +38,27 @@ def get_solr_query_url():
 
     req = requests.get(search_url)
     js = json.loads(req.text)
-    shards = js["responseHeader"]["params"]["shards"]
+    # shards = js["responseHeader"]["params"]["shards"]
+    shards = ",".join(
+        [
+            "localhost:8983/solr/datasets",
+            "localhost:8985/solr/datasets",
+            "localhost:8987/solr/datasets",
+            "localhost:8988/solr/datasets",
+            "localhost:8990/solr/datasets",
+            "localhost:8993/solr/datasets",
+            "localhost:8995/solr/datasets",
+        ]
+    )
 
     solr_url = (
         "https://esgf-node.llnl.gov/solr/datasets/select"
         "?q=*:*&wt=json&facet=true&fq=type:Dataset"
         "&fq=replica:false&fq=latest:true&shards={shards}&{{query}}"
     )
+    # other nodes
+    # esgf.ceda.ac.uk
+    # esgf-data.dkrz.de
 
     return solr_url.format(shards=shards)
 

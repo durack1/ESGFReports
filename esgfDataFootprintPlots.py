@@ -13,6 +13,7 @@ PJD 13 Sep 2022 - Updated sys.exit to raise TimeoutError
 PJD 20 Apr 2024 - Updated to print query_url for debugging; flake8 autoformatting
 PJD  6 May 2024 - Adding institution_id
 PJD  9 May 2024 - Update _instId- to -instId- to allow PB separation from MIPs to institution_id
+PJD 23 Jun 2025 - Update to include hard-coded shards list, due to esg-search being offline
 
 @author: @mauzey1, @durack1
 """
@@ -42,7 +43,18 @@ def get_solr_query_url():
 
     req = requests.get(search_url)
     js = json.loads(req.text)
-    shards = js["responseHeader"]["params"]["shards"]
+    # shards = js["responseHeader"]["params"]["shards"]. # esg-search now offline
+    shards = ",".join(
+        [
+            "localhost:8983/solr/files",
+            "localhost:8985/solr/files",
+            "localhost:8987/solr/files",
+            "localhost:8988/solr/files",
+            "localhost:8990/solr/files",
+            "localhost:8993/solr/files",
+            "localhost:8995/solr/files",
+        ]
+    )
 
     solr_url = (
         "https://esgf-node.llnl.gov/solr/files/query"
