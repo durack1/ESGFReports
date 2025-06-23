@@ -61,6 +61,9 @@ def get_solr_query_url():
         "?q=*:*&wt=json"
         "&shards={shards}&{{query}}"
     )
+    # other nodes
+    # esgf.ceda.ac.uk
+    # esgf-data.dkrz.de
 
     return solr_url.format(shards=shards)
 
